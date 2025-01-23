@@ -1,20 +1,17 @@
 import axios from 'axios';
 
-export default async function MakeRequest(message) {
-  const data = {};
+async function MakeRequest(conversation) {
 
-  console.log(message);
-  await axios.post('http://localhost:5000/', {
-    messages: [
-      { role: 'user', content: message},
-    ],
+  return await axios.post('http://localhost:5000/', {
+    messages: conversation,
   })
   .then(res => {
-    console.log(res);
+
+    return res.data;
   })
   .catch(e => {
-    console.log(e);
+    console.log(e.message);
   });
 };
 
-
+export default MakeRequest;

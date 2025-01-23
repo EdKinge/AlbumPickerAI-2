@@ -1,46 +1,79 @@
 import { useEffect, useState } from 'react'
 import './App.css';
 import MakeRequest from '../ai/zuki';
+import GetAlbum from '../ai/albums';
+import BackButton from "./BackButton";
+import RatingPanel from './RatingPanel';
 
-function Rating() {
+function Rating({genres}) {
   const [ loaded, setLoaded ] = useState(false);
+  const [ albumData, setAlbumData ] = useState({});
+  const [ conversation, setConversation ] = useState([]);
+  const [ gotData, setGotData ] = useState(false);
 
   useEffect(() => {
-    console.log(loaded);
-    if (!loaded) {
-      const message = "You will act as a musical album recommendation tool. I will send a message with a ranking from 1-5 (5 being the best) for your album suggestion, and you must recommend me another one that I may like. Your response must ONLY be in the format '{Title, Artist}' and nothing else.";
-      MakeRequest(message);
+    setLoaded(false);
+
+    const message = "You will act as a musical album recommendation tool. I will send a message with a ranking from 1-5 (5 being the best) or a skip for your album suggestion, and you must recommend me another one that I may like. Your response should be in the format: Title, Artist and nothing else. "
+    + "I like " + genres.toString() + ", start by recommending me an album. Every suggestion must be an album from the spotify catalogue.";
+    sendMessage(message);
+
+    return () => {
       setLoaded(true);
     }
 
   }, []);
 
-  function sendFeedback(feedbackNum) {
-    MakeRequest(feedbackNum);
+  async function sendMessage(newMessage) {
+    setGotData(false);
+
+    let newConversation = [...conversation,
+      { role: 'user', content: newMessage}
+    ];
+
+    MakeRequest(newConversation)
+    .then(data => {
+      
+      if (data) {
+        //Add the model's response to conversation
+        newConversation.push(
+          { role: 'assistant', content: data}
+        );
+        setConversation(newConversation);
+  
+        //Update UI with album info
+        getSpotify(data);
+      }
+
+    })
+    .catch(e => {
+      console.log(e.message);
+    })
+  };
+
+  function getSpotify(albumInfo) {
+    GetAlbum(albumInfo)
+    .then(data => {
+      //There are no albums with multiple credited artists
+      setAlbumData({
+        image: data.image,
+        title: data.title,
+        artist: data.artists.name,
+      });
+    })
+    .then(() => setGotData(true))
+    .catch(e => {
+      console.log(e.message);
+    })
   };
 
   return (
     <>
-      <div className="bg-zinc-800 h-screen w-screen">
-        <div className="flex justify-center content-center">
-          <div className="mt-36 text-slate-300">
-            <div className="w-48 h-48 border border-slate-300">
-              Album
-            </div>
-            <div>
-              Title
-            </div>
-            <div>
-              Artist
-            </div>
-            <div className="flex justify-between mt-14">
-              <div className="rounded-full cursor-pointer bg-red-500 w-8 h-8" onClick={() => sendFeedback(1)}></div>
-              <div className="rounded-full cursor-pointer bg-orange-500 w-8 h-8" onClick={() => sendFeedback(2)}></div>
-              <div className="rounded-full cursor-pointer bg-yellow-500 w-8 h-8" onClick={() => sendFeedback(3)}></div>
-              <div className="rounded-full cursor-pointer bg-lime-600 w-8 h-8" onClick={() => sendFeedback(4)}></div>
-              <div className="rounded-full cursor-pointer bg-green-800 w-8 h-8" onClick={() => sendFeedback(5)}></div>
-            </div>
-            <div className="underline cursor-pointer text-center mt-3">Skip</div>
+      <div className="bg-zinc-800">
+        <BackButton></BackButton>
+        <div className="flex z-0 justify-center content-center">
+          <div className="mt-36">
+            <RatingPanel active={gotData} albumData={albumData} onSend={mes => sendMessage(mes)}/>
           </div>
         </div>
       </div>
