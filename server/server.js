@@ -1,13 +1,8 @@
 import express from 'express';
 import OpenAI from 'openai';
 import 'dotenv/config';
-import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
-
-dotenv.config({
-  path: '../.env.local'
-});
 
 const app = express();
 const PORT = 5000;
@@ -15,8 +10,6 @@ const apiKey = process.env.ZUKI_API_KEY;
 const corsOptions = {
   origin: ["http://localhost:5173"],
 };
-
-console.log(apiKey);
 
 const client = new OpenAI({
   baseURL: 'https://api.zukijourney.com/v1',
