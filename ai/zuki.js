@@ -6,7 +6,6 @@ async function MakeRequest(conversation) {
     messages: conversation,
   })
   .then(res => {
-
     return res.data;
   })
   .catch(e => {

@@ -1,7 +1,6 @@
 import express from 'express';
 import OpenAI from 'openai';
 import 'dotenv/config';
-import path from 'path';
 import cors from 'cors';
 
 const app = express();

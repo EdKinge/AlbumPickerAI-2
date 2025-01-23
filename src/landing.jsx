@@ -52,7 +52,6 @@ function Landing({onSubmit}) {
             <GenreButton text="Latin" onSelect={() => handleClick("Latin")}></GenreButton>
             <GenreButton text="Dance" onSelect={() => handleClick("Dance")}></GenreButton>
             <GenreButton text="Indie" onSelect={() => handleClick("Indie")}></GenreButton>
-            <GenreButton text="Electronic dance" onSelect={() => handleClick("Electronic dance")}></GenreButton>
             <GenreButton text="Disco" onSelect={() => handleClick("Disco")}></GenreButton>
             <GenreButton text="Grunge" onSelect={() => handleClick("Grunge")}></GenreButton>
             <GenreButton text="Ambient" onSelect={() => handleClick("Ambient")}></GenreButton>
