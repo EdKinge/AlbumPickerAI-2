@@ -2,28 +2,27 @@ import express from 'express';
 import OpenAI from 'openai';
 import 'dotenv/config';
 import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
-const PORT = 5000;
-const apiKey = process.env.ZUKI_API_KEY;
+const PORT = process.env.PORT || 5000;
 const corsOptions = {
   origin: ["http://localhost:5173"],
 };
 
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+
 const client = new OpenAI({
   baseURL: 'https://api.zukijourney.com/v1',
-  apiKey: apiKey,
+  apiKey: process.env.ZUKI_API_KEY,
 });
 
 app.use(cors(corsOptions));
 app.use(express.json());
 
-
-app.get('/', (req, res) => {
-  res.send("Hello world");
-});
-
-app.post('/', async (req, res) => {
+//Send requests to openai api
+app.post('/api/generate', async (req, res) => {
   const { messages } = req.body;
 
   try {
@@ -36,8 +35,53 @@ app.post('/', async (req, res) => {
     res.json(response.choices[0].message.content);
 
   } catch (error) {
-    console.log('massive error');
     res.status(500).json({ error: error.message });
+  }
+});
+
+//Gets access token for use in search API call
+//May be an issue with token refresh
+const getSpotifyToken = async (req, res) => {
+  const params = new URLSearchParams();
+  params.append("grant_type", "client_credentials");
+  params.append("client_id", clientId);
+  params.append("client_secret", clientSecret);
+
+  try {
+    const response = await axios.post('https://accounts.spotify.com/api/token', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+
+    return response.data.access_token;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to refresh Spotify token" });
+  }
+};
+
+//Gets passed the albumName from the frontend
+//Retrieves the album data
+app.post('/api/spotify/data', async (req, res) => {
+  const params = new URLSearchParams();
+  let albumName = req.body;
+  params.append("q", albumName);
+  params.append("type", "album");
+
+  const accessToken = await getSpotifyToken();
+
+  try {
+    const response = await axios.post('https://api.spotify.com/v1/search?', params, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + accessToken
+      }
+    })
+    res.json(response.data);
+
+  } catch (err) {
+    console.log(err);
   }
 });
 

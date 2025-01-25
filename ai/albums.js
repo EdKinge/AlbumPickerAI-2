@@ -17,6 +17,8 @@ async function GetAccessToken(albumName) {
   });
 };
 
+
+//Move to custom hook
 function CompareArtistStrings(genName, credName) {
   const generatedName = genName.toLowerCase().trim();
   const creditedName = credName.toLowerCase().trim();
@@ -30,7 +32,8 @@ function CompareArtistStrings(genName, credName) {
 //Check if generated artist name exists among search results
 //Returns the search result with that artist
 function ValidateArtist(data, albumName) {
-  const generatedArtistName = albumName.split(", ")[1];
+  const regex = /;/;
+  const generatedArtistName = albumName.split(regex)[1];
 
   //Compares the first 5 results to the artist's name
   for (let i = 0; i < 5; i++) {
@@ -38,7 +41,6 @@ function ValidateArtist(data, albumName) {
 
     for (let j = 0; j < creditedArtists.length; j++) {
       //If the credited artist is a perfect match or is contained
-      console.log(generatedArtistName);
       if (CompareArtistStrings(generatedArtistName, creditedArtists[j].name)) {
         return data.albums.items[i];
       }
