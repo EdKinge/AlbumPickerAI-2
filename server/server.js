@@ -5,9 +5,11 @@ import cors from 'cors';
 import axios from 'axios';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const corsOptions = {
   origin: ["http://localhost:5173"],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -20,6 +22,10 @@ const client = new OpenAI({
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('server is running');
+});
 
 //Send requests to openai api
 app.post('/api/generate', async (req, res) => {
@@ -36,6 +42,7 @@ app.post('/api/generate', async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log(error);
   }
 });
 
@@ -65,13 +72,14 @@ const getSpotifyToken = async (req, res) => {
 //Retrieves the album data
 app.post('/api/spotify/data', async (req, res) => {
   const params = new URLSearchParams();
-  let albumName = req.body;
+  let albumName = req.query.name;
   params.append("q", albumName);
   params.append("type", "album");
 
   const accessToken = await getSpotifyToken();
 
   try {
+    //Error here
     const response = await axios.post('https://api.spotify.com/v1/search?', params, {
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +89,8 @@ app.post('/api/spotify/data', async (req, res) => {
     res.json(response.data);
 
   } catch (err) {
-    console.log(err);
+    res.json(err);
+    console.log(err.message);
   }
 });
 
