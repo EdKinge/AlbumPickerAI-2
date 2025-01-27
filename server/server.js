@@ -71,7 +71,6 @@ const getSpotifyToken = async (req, res) => {
 //Gets passed the albumName from the frontend
 //Retrieves the album data
 app.post('/api/spotify/data', async (req, res) => {
-  console.log(req.body);
 
   const searchParams = new URLSearchParams();
   searchParams.append("q", req.body.name);

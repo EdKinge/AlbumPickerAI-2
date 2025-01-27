@@ -11,7 +11,6 @@ export function useSpotifyApi(albumName) {
 
     const PORT = import.meta.env.PORT || 5001;
 
-
     await axios.post(`http://localhost:${PORT}/api/spotify/data`, {
       params: {
         name: albumName
@@ -30,10 +29,6 @@ export function useSpotifyApi(albumName) {
 
     setLoading(false);
   };
-  
-  useEffect(() => {
-    fetchData();
-  }, [albumName]);
 
-  return { data, loading, error};
+  return { data, loading, error, fetchData};
 };

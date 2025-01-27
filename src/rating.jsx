@@ -10,7 +10,6 @@ function Rating({genres}) {
   const [ albumData, setAlbumData ] = useState({});
   const [ conversation, setConversation ] = useState([]);
   const [ gotData, setGotData ] = useState(false);
-  const { data, loading, error } = useSpotifyApi('Alive 2007; Daft Punk');
 
   useEffect(() => {
     setLoaded(false);

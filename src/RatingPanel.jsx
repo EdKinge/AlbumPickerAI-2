@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
 import { ThreeDot } from 'react-loading-indicators';
+import { useMusicFinder } from './hooks/useMusicFinder';
 
 export default function RatingPanel({active, albumData, onSend}) {
+  const { initPrompt } = useMusicFinder();
+
   return (
     <>
     {

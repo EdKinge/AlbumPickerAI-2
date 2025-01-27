@@ -2,12 +2,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-export const useApi = (conversation) => {
+export function useOpenaiApi() {
   const [ data, setData ] = useState(null);
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState(null);
 
-  const fetchData = async () => {
+  const updateConversation = async (conversation) => {
     setLoading(true);
     const PORT = import.meta.env.PORT || 5001;
 
@@ -26,9 +26,5 @@ export const useApi = (conversation) => {
     setLoading(false);
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return { data, loading, error };
+  return { data, loading, error, updateConversation };
 }
