@@ -71,20 +71,22 @@ const getSpotifyToken = async (req, res) => {
 //Gets passed the albumName from the frontend
 //Retrieves the album data
 app.post('/api/spotify/data', async (req, res) => {
-  const params = new URLSearchParams();
-  let albumName = req.query.name;
-  params.append("q", albumName);
-  params.append("type", "album");
+  console.log(req.body);
+
+  const searchParams = new URLSearchParams();
+  searchParams.append("q", req.body.name);
+  searchParams.append("type", "album");
 
   const accessToken = await getSpotifyToken();
 
   try {
     //Error here
-    const response = await axios.post('https://api.spotify.com/v1/search?', params, {
+    const response = await axios.get('https://api.spotify.com/v1/search?', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + accessToken
-      }
+      },
+      params: searchParams
     })
     res.json(response.data);
 

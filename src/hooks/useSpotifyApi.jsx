@@ -11,6 +11,7 @@ export function useSpotifyApi(albumName) {
 
     const PORT = import.meta.env.PORT || 5001;
 
+
     await axios.post(`http://localhost:${PORT}/api/spotify/data`, {
       params: {
         name: albumName
