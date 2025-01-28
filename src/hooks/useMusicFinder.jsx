@@ -5,12 +5,13 @@ import { useSpotifyApi } from "./useSpotifyApi";
 export function useMusicFinder() {
   const [ data, setData ] = useState(null);
   const [ error, setError ] = useState(null);
-  const [ loading, setLoading ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
   const [ conversation, setConversation ] = useState([]);
   const { updateConversation } = useOpenaiApi(null);
   const { fetchData } = useSpotifyApi(null);
 
   function initPrompt(genres) {
+    setLoading(true);
     const initMessage = "You will act as a musical album recommendation tool. I will send a message with a ranking from 1-5 (5 being the best) or a skip for your album suggestion, and you must recommend me another one that I may like. Your response should be in the format: Title; Artist and nothing else. "
     + "I like " + genres.toString() + ", start by recommending me an album. Every suggestion must be an album from the spotify catalogue.";
 
@@ -18,6 +19,7 @@ export function useMusicFinder() {
   }
 
   async function sendMessage(newMessage) {
+    setLoading(true);
     let newConversation = [...conversation,
       { role: 'user', content: newMessage}
     ];
@@ -76,10 +78,11 @@ export function useMusicFinder() {
         const albumData = {
           image: firstAlbum.images[0].url,
           title: firstAlbum.name,
-          artists: firstAlbum.artists[0].name
+          artist: firstAlbum.artists[0].name
         };
-        console.log(albumData);
         setData(albumData);
+        console.log(albumData);
+        setLoading(false);
       }
     })
     .catch(err => {
@@ -87,6 +90,10 @@ export function useMusicFinder() {
       console.log(err.message);
     })
   };
+
+  useEffect(() => {
+    setLoading(true);
+  },[])
 
   return { data, loading, initPrompt, sendMessage };
 };
