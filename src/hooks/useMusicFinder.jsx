@@ -92,7 +92,7 @@ export function useMusicFinder() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
   },[])
 
   return { data, loading, initPrompt, sendMessage };
