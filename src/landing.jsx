@@ -1,10 +1,12 @@
 import GenreButton from "./GenreButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMusicFinder } from "./hooks/useMusicFinder";
 
 function Landing({onSubmit}) {
   const [ genres, setGenres ] = useState([]);
   const [ error, setError ] = useState(true);
+  const { data, initPrompt, sendMessage } = useMusicFinder();
   const navigate = useNavigate();
 
   function handleClick(name) {

@@ -83,7 +83,7 @@ function Rating({genres}) {
         <BackButton></BackButton>
         <div className="flex z-0 justify-center content-center">
           <div className="mt-36">
-            <RatingPanel active={gotData} albumData={albumData} onSend={mes => sendMessage(mes)}/>
+            <RatingPanel active={gotData} albumData={albumData} genres={genres} onSend={mes => sendMessage(mes)}/>
           </div>
         </div>
       </div>

@@ -73,7 +73,7 @@ const getSpotifyToken = async (req, res) => {
 app.post('/api/spotify/data', async (req, res) => {
 
   const searchParams = new URLSearchParams();
-  searchParams.append("q", req.body.name);
+  searchParams.append("q", req.body.params.name);
   searchParams.append("type", "album");
 
   const accessToken = await getSpotifyToken();

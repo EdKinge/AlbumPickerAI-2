@@ -3,9 +3,12 @@ import { useOpenaiApi } from "./useOpenaiAPI";
 import { useSpotifyApi } from "./useSpotifyApi";
 
 export function useMusicFinder() {
-  const [ message, setMessage ] = useState(null);
+  const [ data, setData ] = useState(null);
+  const [ error, setError ] = useState(null);
+  const [ loading, setLoading ] = useState(false);
   const [ conversation, setConversation ] = useState([]);
-  const { data, loading, error, updateConversation } = useOpenaiApi(null);
+  const { updateConversation } = useOpenaiApi(null);
+  const { fetchData } = useSpotifyApi(null);
 
   function initPrompt(genres) {
     const initMessage = "You will act as a musical album recommendation tool. I will send a message with a ranking from 1-5 (5 being the best) or a skip for your album suggestion, and you must recommend me another one that I may like. Your response should be in the format: Title; Artist and nothing else. "
@@ -19,13 +22,71 @@ export function useMusicFinder() {
       { role: 'user', content: newMessage}
     ];
 
-    await updateConversation(newConversation);
+    await updateConversation(newConversation)
+    .then(res => {
+      newConversation.push(
+        { role: 'assistant', content: res.data}
+      );
+      setConversation(newConversation);
+      getAlbumData(res.data);
+    })
+    .catch(err => {
+      setError(err);
+    });
+
   };
 
-  useEffect(() => {
-    initPrompt(['Rock', 'Pop']);
-  },[]);
+  function CompareArtistStrings(genName, credName) {
+    const generatedName = genName.toLowerCase().trim();
+    const creditedName = credName.toLowerCase().trim();
+  
+    if (creditedName === generatedName || generatedName.includes(creditedName)) {
+      return true;
+    }
+    return false;
+  };
 
+  function ValidateArtist(data, albumName) {
+    const regex = /;/;
+    const generatedArtistName = albumName.split(regex)[1];
+  
+    //Compares the first 5 results to the artist's name
+    for (let i = 0; i < 5; i++) {
+      const creditedArtists = data.albums.items[i].artists;
+  
+      for (let j = 0; j < creditedArtists.length; j++) {
+        //If the credited artist is a perfect match or is contained
+        if (CompareArtistStrings(generatedArtistName, creditedArtists[j].name)) {
+          return data.albums.items[i];
+        }
+      }
+    }
+    return false;
+  } 
 
-  return { initPrompt };
+  async function getAlbumData(albumInfo) {
+    await fetchData(albumInfo)
+    .then(res => res.data)
+    .then(searchResult => {
+      //Clean up the data
+
+      const firstAlbum = ValidateArtist(searchResult, albumInfo);
+
+      if (searchResult.albums.items.length > 0 && searchResult.albums.items && firstAlbum.type == "album") {
+        const albumData = {
+          image: firstAlbum.images[0].url,
+          title: firstAlbum.name,
+          artists: firstAlbum.artists[0].name
+        };
+        console.log(albumData);
+        setData(albumData);
+      }
+    })
+    .catch(err => {
+      setError(err);
+      console.log(err.message);
+    })
+  };
+
+  return { data, loading, initPrompt, sendMessage };
 };
