@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css';
 import Landing from './landing';
 import Rating from './rating';
+import Login from './components/Auth/Login';
+import LandingPage from './pages/LandingPage';
 import { BrowserRouter, Routes, Route, useNavigate, Router, Navigate } from 'react-router-dom';
 
 function App() {
@@ -17,12 +19,14 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing onSubmit={(arr) => {handleRouting(arr)}} />}></Route>
+          <Route path="/" element={<Landing onSubmit={(arr) => {handleRouting(arr)}} />} />
           {
             isSubmitted ?
             <Route path="/dashboard" element={<Rating genres={inGenres} />} />:
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/dashboard" element={<Navigate to="/" />} />
           }
+          <Route path="/login" element={<Login />}/>
+          <Route path="/landing" element={<LandingPage/>}/>
         </Routes>
       </BrowserRouter>
     </>
