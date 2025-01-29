@@ -17,6 +17,7 @@ export function Hero() {
               Get recommendations from a trained AI
             </li>
           </ul>
+          <div>Let's go!</div>
         </div>
         <div className="md:w-1/2 h-full">
           <div className="w-64 h-64 md:w-96 md:h-96 mx-auto mt-14 border-2 border-zinc-500">

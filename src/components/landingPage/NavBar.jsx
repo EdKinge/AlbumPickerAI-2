@@ -7,7 +7,7 @@ export function NavBar() {
 
   return (
     <>
-      <div className="flex marker:sticky top-0 font-main text-2xl text-slate-300 h-24 border-b-4 border-zinc-500">
+      <div className="flex sticky top-0 text-2xl text-slate-300 h-24 border-b-4 border-zinc-500 bg-zinc-800">
         <div className="my-auto ml-4 w-1/3 mx-auto text-sky-600 cursor-pointer font-bold text-4xl">
           AlbumPickerAI
         </div>
