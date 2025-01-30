@@ -1,6 +1,7 @@
 import { useScreenWidth } from "../../hooks/useScreenWidth";
 import { useEffect } from "react";
 import { usePopup } from "../../context/PopupContext";
+import { CtaButton } from "./CtaButton";
 
 export function NavBar() {
   const { open, togglePopup } = usePopup();
@@ -16,8 +17,8 @@ export function NavBar() {
           <div className="my-auto cursor-pointer">Pricing</div>
           <div className="my-auto cursor-pointer">How it works</div>
         </div>
-        <div className="hidden md:block mr-4 h-8 w-64 my-auto text-center py-auto bg-slate-300 text-sky-800 rounded-lg cursor-pointer">
-          Get started
+        <div className="hidden md:block my-auto w-1/3">
+          <CtaButton text="Get Started"/>
         </div>
         <div className="md:hidden my-auto mr-4 cursor-pointer" onClick={togglePopup}>
           <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24"><path fill="#cad5e2" d="M3 7h18a1 1 0 0 0 0-2H3a1 1 0 0 0 0 2m18 10H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2m0-4H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2m0-4H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2"/></svg>

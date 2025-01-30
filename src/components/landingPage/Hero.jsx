@@ -1,12 +1,14 @@
+import { CtaButton } from "./CtaButton"
+
 export function Hero() {
   return (
     <>
-      <div className="content-center md:flex md:h-[500px] font-main">
-        <div className="md:w-1/2 h-full text-center px-4">
-          <div className="text-6xl text-start text-sky-600 mt-24 w-96 mx-auto">
+      <div className="content-center md:flex md:h-[500px] font-main mt-20">
+        <div className="md:w-1/2 h-full px-4">
+          <div className="text-6xl text-start text-sky-600 mt-24 w-96 mx-auto underline">
             Find your new favourite album
           </div>
-          <ul className="text-slate-300 mt-8 w-96 mx-auto text-start text-2xl list-disc list-inside">
+          <ul className="text-slate-300 mt-8 pl-4 w-96 mx-auto text-start text-2xl list-disc list-outside">
             <li>
               Personalise your music taste
             </li>
@@ -17,7 +19,9 @@ export function Hero() {
               Get recommendations from a trained AI
             </li>
           </ul>
-          <div>Let's go!</div>
+          <div className="flex justify-center mt-8">
+            <CtaButton text="Let's go!" />
+          </div>
         </div>
         <div className="md:w-1/2 h-full">
           <div className="w-64 h-64 md:w-96 md:h-96 mx-auto mt-14 border-2 border-zinc-500">
