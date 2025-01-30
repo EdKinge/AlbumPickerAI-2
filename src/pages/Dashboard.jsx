@@ -1,9 +1,9 @@
-import GenreButton from "./GenreButton";
+import GenreButton from "../components/dashboard/GenreButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMusicFinder } from "./hooks/useMusicFinder";
+import { useMusicFinder } from "../hooks/useMusicFinder";
 
-function Landing({onSubmit}) {
+function Dashboard({onSubmit}) {
   const [ genres, setGenres ] = useState([]);
   const [ error, setError ] = useState(true);
   const { data, initPrompt, sendMessage } = useMusicFinder();
@@ -22,7 +22,7 @@ function Landing({onSubmit}) {
   async function handleNext() {
     if (genres.length >= 1) {
       await onSubmit(genres);
-      navigate('/dashboard');
+      navigate('/rating');
     } else {
       setError(true);
     }
@@ -57,7 +57,6 @@ function Landing({onSubmit}) {
             <GenreButton text="Disco" onSelect={() => handleClick("Disco")}></GenreButton>
             <GenreButton text="Grunge" onSelect={() => handleClick("Grunge")}></GenreButton>
             <GenreButton text="Ambient" onSelect={() => handleClick("Ambient")}></GenreButton>
-            {/* <GenreButton text="Jungle" onSelect={() => handleClick("Jungle")}></GenreButton> */}
         </div>
         {
           error ?
@@ -75,4 +74,4 @@ function Landing({onSubmit}) {
   )
 };
 
-export default Landing;
+export default Dashboard;

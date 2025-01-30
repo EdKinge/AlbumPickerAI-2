@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import './App.css';
-import BackButton from "./BackButton";
-import RatingPanel from './RatingPanel';
+import BackButton from "../components/dashboard/BackButton";
+import RatingPanel from '../components/dashboard/RatingPanel';
 
 function Rating({genres}) {
   const [ albumData, setAlbumData ] = useState({});

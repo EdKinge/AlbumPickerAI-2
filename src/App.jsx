@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css';
-import Landing from './landing';
-import Rating from './rating';
-import Login from './components/Auth/Login';
+import Dashboard from './pages/Dashboard';
+import Rating from './pages/Rating';
+import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import { BrowserRouter, Routes, Route, useNavigate, Router, Navigate } from 'react-router-dom';
 
 function App() {
@@ -19,14 +20,12 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Landing onSubmit={(arr) => {handleRouting(arr)}} />} />
-          {
-            isSubmitted ?
-            <Route path="/dashboard" element={<Rating genres={inGenres} />} />:
-            <Route path="/dashboard" element={<Navigate to="/" />} />
-          }
+          <Route path="/" element={<LandingPage />} />
+          {/* <ProtectedRoute> */}
+            <Route path="/dashboard" element={<Dashboard onSubmit={(arr) => {handleRouting(arr)}}/>} />
+            <Route path="/rating" element={<Rating genres={inGenres} />} />
+          {/* </ProtectedRoute> */}
           <Route path="/login" element={<Login />}/>
-          <Route path="/landing" element={<LandingPage/>}/>
         </Routes>
       </BrowserRouter>
     </>

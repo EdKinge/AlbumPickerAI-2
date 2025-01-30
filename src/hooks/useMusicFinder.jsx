@@ -81,7 +81,6 @@ export function useMusicFinder() {
           artist: firstAlbum.artists[0].name
         };
         setData(albumData);
-        console.log(albumData);
         setLoading(false);
       }
     })
