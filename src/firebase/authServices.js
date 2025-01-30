@@ -5,7 +5,7 @@ const provider = new GoogleAuthProvider();
 const auth = initAuth();
 
 export const signInWithGoogle = () => {
-  signInWithPopup(auth, provider)
+  const signIn = signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -18,12 +18,14 @@ export const signInWithGoogle = () => {
     // Handle Errors here.
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log(errorMessage);
     // The email of the user's account used.
-    const email = error.customData.email;
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   });
+
+  return signIn;
 };
 
 export const signOutWithGoogle = () => {

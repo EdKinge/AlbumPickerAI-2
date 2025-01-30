@@ -1,8 +1,12 @@
 import { signInWithGoogle, signOutWithGoogle } from "../firebase/authServices";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
+  const navigate = useNavigate();
+
   const login = () => {
-    signInWithGoogle();
+    signInWithGoogle()
+    .then(() => navigate('/dashboard'));
   }
 
   const logout = () => {
@@ -11,5 +15,3 @@ export const useAuth = () => {
 
   return { login, logout };
 };
-
-
