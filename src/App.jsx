@@ -21,13 +21,18 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="*" element={
+          <Route path="/dashboard" element={
             <ProtectedRoute>
-              <Route path="/dashboard" element={<Dashboard onSubmit={(arr) => {handleRouting(arr)}}/>} />
-              <Route path="/rating" element={<Rating genres={inGenres} />} />
+              <Dashboard onSubmit={(arr) => {handleRouting(arr)}}/>
             </ProtectedRoute>
-          }/>
+          } />
+          <Route path="/rating" element={
+            <ProtectedRoute>
+              <Rating genres={inGenres} />
+            </ProtectedRoute>
+          } />
           <Route path="/login" element={<Login />}/>
+          <Route path="*" element={<p className="text-slate-300">There's nothing here: 404!</p>} />
         </Routes>
       </BrowserRouter>
     </>
