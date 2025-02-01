@@ -2,6 +2,7 @@ import GenreButton from "../components/dashboard/GenreButton";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMusicFinder } from "../hooks/useMusicFinder";
+import SignOutButton from "../components/dashboard/SignOutButton";
 
 function Dashboard({onSubmit}) {
   const [ genres, setGenres ] = useState([]);
@@ -31,6 +32,7 @@ function Dashboard({onSubmit}) {
   return (
     <>
       <div className="bg-zinc-800 min-h-screen bg-fixed pb-24">
+        <SignOutButton />
         <div className="flex flex-col justify-center items-center text-slate-300 pt-32 font-main cursor-default">
           <div className="text-6xl font-bold">AlbumPickerAI</div>
           <div className="text-2xl mt-4 text-zinc-500">Select the genres you like, you'll be recommended an album</div>

@@ -10,7 +10,8 @@ export const useAuth = () => {
   }
 
   const logout = () => {
-    signOutWithGoogle();
+    signOutWithGoogle()
+    .then(() => navigate('/'));
   }
 
   return { login, logout };

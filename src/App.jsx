@@ -21,10 +21,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          {/* <ProtectedRoute> */}
-            <Route path="/dashboard" element={<Dashboard onSubmit={(arr) => {handleRouting(arr)}}/>} />
-            <Route path="/rating" element={<Rating genres={inGenres} />} />
-          {/* </ProtectedRoute> */}
+          <Route path="*" element={
+            <ProtectedRoute>
+              <Route path="/dashboard" element={<Dashboard onSubmit={(arr) => {handleRouting(arr)}}/>} />
+              <Route path="/rating" element={<Rating genres={inGenres} />} />
+            </ProtectedRoute>
+          }/>
           <Route path="/login" element={<Login />}/>
         </Routes>
       </BrowserRouter>
