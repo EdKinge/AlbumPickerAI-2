@@ -24,17 +24,43 @@ export function useMusicFinder() {
       { role: 'user', content: newMessage}
     ];
 
-    await updateConversation(newConversation)
-    .then(res => {
-      newConversation.push(
-        { role: 'assistant', content: res.data}
-      );
-      setConversation(newConversation);
-      getAlbumData(res.data);
-    })
-    .catch(err => {
-      setError(err);
-    });
+    //The AI is asked for an album
+    //If it exceeds 5 attempts, there is no response
+    let foundAlbum = false;
+
+    for (let i = 0; i < 5; i++) {
+      console.log(i);
+      
+      await updateConversation(newConversation)
+      .then(res => {
+        console.log(res.data);
+
+
+        if (!error) {
+          newConversation.push(
+            { role: 'assistant', content: res.data}
+          );
+          setConversation(newConversation);
+        }
+        return getAlbumData(res.data);
+      })
+      .catch(err => {
+        setError(err);
+      });
+
+      //If a result is found, stop looping
+      if (!error) {
+        foundAlbum = true;
+        break;
+      }
+    }
+
+    //Show "Sorry please come back later" message
+    if (!foundAlbum) {
+      console.log('error');
+      setError(true);
+    } else {
+    }
 
   };
 
@@ -67,12 +93,15 @@ export function useMusicFinder() {
   } 
 
   async function getAlbumData(albumInfo) {
-    await fetchData(albumInfo)
+    return await fetchData(albumInfo)
     .then(res => res.data)
     .then(searchResult => {
       //Clean up the data
 
       const firstAlbum = ValidateArtist(searchResult, albumInfo);
+      // console.log(firstAlbum);
+
+      if (!firstAlbum) setError(true);
 
       if (searchResult.albums.items.length > 0 && searchResult.albums.items && firstAlbum.type == "album") {
         const albumData = {
@@ -94,5 +123,5 @@ export function useMusicFinder() {
     // setLoading(true);
   },[])
 
-  return { data, loading, initPrompt, sendMessage };
+  return { data, loading, error, initPrompt, sendMessage };
 };

@@ -5,11 +5,6 @@ import { useEffect } from "react";
 export default function ProtectedRoute({ children }) {
   const { currentUser } = useAuth();
 
-  useEffect(() => {
-    console.log('protected route');
-    console.log(currentUser);
-  },[])
-
   if (!currentUser) {
     return <Navigate to="/" />
   } else {
