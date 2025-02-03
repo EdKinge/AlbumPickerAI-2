@@ -10,22 +10,21 @@ export function AuthProvider({ children }) {
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
-    console.log(AuthContext);
     const unsubscribe = onAuthStateChanged(auth, user => {
       setCurrentUser(user);
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => unsubscribe();
   },[]);
 
   return(
-    <AuthContext.Provider value={ currentUser }>
+    <AuthContext.Provider value={{ currentUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
+export const useAuth = () => {
   return useContext(AuthContext);
 }

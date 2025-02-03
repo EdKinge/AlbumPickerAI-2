@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom"
 
-export default function BackButton() {
+export default function BackButton({ to }) {
 
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate('/dashboard');
+    navigate(to);
   }
 
   return (

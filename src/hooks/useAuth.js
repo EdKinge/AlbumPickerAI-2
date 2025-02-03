@@ -1,18 +1,25 @@
-import { signInWithGoogle, signOutWithGoogle } from "../firebase/authServices";
+import { signInWithGoogle, logOut, signInWithGithub } from "../firebase/authServices";
 import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const navigate = useNavigate();
 
-  const login = () => {
+  const loginWithGoogle = () => {
+    
     signInWithGoogle()
+    .then(() => navigate('/dashboard'))
+    .catch(err => console.log(err.message))
+  }
+
+  const loginWithGithub = () => {
+    signInWithGithub()
     .then(() => navigate('/dashboard'));
   }
 
-  const logout = () => {
-    signOutWithGoogle()
+  const logoutOfAuth = () => {
+    logOut()
     .then(() => navigate('/'));
   }
 
-  return { login, logout };
+  return { loginWithGoogle, loginWithGithub, logoutOfAuth };
 };
