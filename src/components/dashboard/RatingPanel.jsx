@@ -1,12 +1,18 @@
 import { useEffect } from 'react';
 import { ThreeDot } from 'react-loading-indicators';
 import { useMusicFinder } from '../../hooks/useMusicFinder';
+import { useNavigate } from 'react-router-dom';
 
 export default function RatingPanel({active, albumData, onSend, genres}) {
   const { data, loading, error, initPrompt, sendMessage } = useMusicFinder();
+  const navigate = useNavigate();
 
   useEffect(() => {
     initPrompt(genres);
+    if (genres.length === 0) {
+      navigate('/dashboard');
+    }
+
   },[genres]);
 
   return (

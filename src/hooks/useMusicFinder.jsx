@@ -23,6 +23,7 @@ export function useMusicFinder() {
     let newConversation = [...conversation,
       { role: 'user', content: newMessage}
     ];
+    console.log(newConversation);
 
     //The AI is asked for an album
     //If it exceeds 5 attempts, there is no response
@@ -59,7 +60,6 @@ export function useMusicFinder() {
     if (!foundAlbum) {
       console.log('error');
       setError(true);
-    } else {
     }
 
   };
