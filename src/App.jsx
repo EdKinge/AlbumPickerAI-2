@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import Rating from './pages/Rating';
 import Login from './pages/Login';
 import LandingPage from './pages/LandingPage';
+import Feedback from './pages/Feedback';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { BrowserRouter, Routes, Route, useNavigate, Router, Navigate } from 'react-router-dom';
 
@@ -29,6 +30,11 @@ function App() {
           <Route path="/rating" element={
             <ProtectedRoute>
               <Rating genres={inGenres} />
+            </ProtectedRoute>
+          } />
+          <Route path="/feedback" element={
+            <ProtectedRoute>
+              <Feedback />
             </ProtectedRoute>
           } />
           <Route path="/login" element={<Login />}/>

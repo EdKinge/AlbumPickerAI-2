@@ -46,6 +46,7 @@ export function useMusicFinder() {
         return getAlbumData(res.data);
       })
       .catch(err => {
+        console.log(err);
         setError(err);
       });
 
