@@ -1,25 +1,36 @@
 import { signInWithGoogle, logOut, signInWithGithub } from "../firebase/authServices";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const useAuth = () => {
+  const [ signedIn, setSignedIn ] = useState(false);
+
   const navigate = useNavigate();
 
   const loginWithGoogle = () => {
-    
     signInWithGoogle()
-    .then(() => navigate('/dashboard'))
+    .then(() => {
+      setSignedIn(true);
+      navigate('/dashboard')
+    })
     .catch(err => console.log(err.message))
   }
 
   const loginWithGithub = () => {
     signInWithGithub()
-    .then(() => navigate('/dashboard'));
+    .then(() => {
+      setSignedIn(true);
+      navigate('/dashboard')
+    });
   }
 
   const logoutOfAuth = () => {
     logOut()
-    .then(() => navigate('/'));
+    .then(() => {
+      setSignedIn(true);
+      navigate('/')
+    });
   }
 
-  return { loginWithGoogle, loginWithGithub, logoutOfAuth };
+  return { signedIn, loginWithGoogle, loginWithGithub, logoutOfAuth };
 };
