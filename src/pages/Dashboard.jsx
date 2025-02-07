@@ -33,13 +33,13 @@ function Dashboard({onSubmit}) {
   return (
     <>
       <div className="bg-zinc-800 min-h-screen bg-fixed pb-24 font-main">
-        <div className="absolute flex right-0 top-5 p-4 text-slate-300 content-center text-xl">
+        <div className="absolute flex right-0 top-5 p-4 text-slate-300 content-center text-lg">
           <FeedbackButton />
           <SignOutButton />
         </div>
-        <div className="flex flex-col justify-center items-center text-slate-300 md:pt-32 pt-64 font-main cursor-default">
+        <div className="flex flex-col justify-center items-center text-slate-300 md:pt-32 pt-48 font-main cursor-default">
           <div className="md:text-6xl font-bold text-5xl">AlbumPickerAI</div>
-          <div className="text-2xl mt-4 text-zinc-500 text-center">Select the genres you like, you'll be recommended an album</div>
+          <div className="text-2xl mt-4 mx-10 text-zinc-500 text-center">Select the genres you like, you'll be recommended an album</div>
         </div>
         <div className="flex flex-initial flex-wrap justify-center mx-auto w-1/2 mt-32">
             <GenreButton text="Rock" onSelect={() => handleClick("Rock")}></GenreButton>
