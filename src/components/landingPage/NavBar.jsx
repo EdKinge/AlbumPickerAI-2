@@ -1,10 +1,20 @@
-import { useScreenWidth } from "../../hooks/useScreenWidth";
-import { useEffect } from "react";
 import { usePopup } from "../../context/PopupContext";
 import { CtaButton } from "./CtaButton";
 
-export function NavBar() {
-  const { open, togglePopup } = usePopup();
+export function NavBar({ featuresRef, desiredOutcomeRef, pricingRef }) {
+  const { togglePopup } = usePopup();
+
+  const handleFeaturesScroll = () => {
+    featuresRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+  
+  const handleOutcomeScroll = () => {
+    desiredOutcomeRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handlePricingScroll = () => {
+    pricingRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -13,9 +23,9 @@ export function NavBar() {
           AlbumPickerAI
         </div>
         <div className="hidden md:flex justify-around w-full">
-          <div className="my-auto cursor-pointer">Features</div>
-          <div className="my-auto cursor-pointer">Pricing</div>
-          <div className="my-auto cursor-pointer">How it works</div>
+          <div onClick={() => handleFeaturesScroll()} className="my-auto cursor-pointer">Features</div>
+          <div onClick={() => handleOutcomeScroll()} className="my-auto cursor-pointer">How it works</div>
+          <div onClick={() => handlePricingScroll()} className="my-auto cursor-pointer">Pricing</div>
         </div>
         <div className="hidden md:block my-auto w-1/3">
           <CtaButton text="Get Started"/>
