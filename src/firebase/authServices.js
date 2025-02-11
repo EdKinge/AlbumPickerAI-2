@@ -56,18 +56,16 @@ export const logOut = () => {
   return signOut(auth);
 };
 
-export const isSignedIn = () => {
+export const isSignedIn = (callback) => {
   const auth = getAuth();
 
-  const authState = onAuthStateChanged(auth, user => {
-    console.log(user);
-
+  onAuthStateChanged(auth, (user) => {
     if (user) {
-      return true;
-    } else {
-      return false;
+      callback(true);
+    }
+    else {
+      callback(false);
     }
   });
-  console.log(authState);
-  return authState;
+
 };

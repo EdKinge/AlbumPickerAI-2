@@ -1,9 +1,19 @@
-import { signInWithGoogle, logOut, signInWithGithub } from "../firebase/authServices";
+import { signInWithGoogle, logOut, signInWithGithub, isSignedIn } from "../firebase/authServices";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const useAuth = () => {
-  const [ signedIn, setSignedIn ] = useState(false);
+export function useAuth() {
+  const [ signedIn, setSignedIn ] = useState(null);
+
+  useEffect(() => {
+    const unsub = isSignedIn((user) => {
+      setSignedIn(user);
+    });
+
+    return () => {
+      if (unsub) unsub();
+    }
+  }, []);
 
   const navigate = useNavigate();
 

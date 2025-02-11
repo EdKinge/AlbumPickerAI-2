@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 export function useOpenaiApi() {
   const updateConversation = async (conversation) => {
