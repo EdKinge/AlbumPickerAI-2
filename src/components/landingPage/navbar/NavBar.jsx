@@ -1,5 +1,5 @@
-import { usePopup } from "../../context/PopupContext";
-import { CtaButton } from "./CtaButton";
+import { usePopup } from "../../../context/PopupContext";
+import { CtaButton } from "../CtaButton";
 
 export function NavBar({ featuresRef, desiredOutcomeRef, pricingRef }) {
   const { togglePopup } = usePopup();

@@ -1,8 +1,8 @@
-export function KeyFeatures({ref}) {
+export function KeyFeatures() {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 justify-center mt-10 w-2/3 mx-auto text-sky-600 text-2xl text-center">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 justify-center my-10 w-2/3 mx-auto text-sky-600 text-2xl text-center">
         <div>
           <svg className="mx-auto mt-1" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="#fff" d="M14.35 8.55q-.3-.75-.887-1.175T12.05 6.95q-.45 0-.875.125t-.775.475L8.95 6.1q.35-.35.95-.638T11 5.1V3h2v2.05q1.125.225 1.975.913T16.25 7.75zM19.8 22.6L15.2 18q-.375.375-1.025.613T13 18.9V21h-2v-2.15q-1.4-.35-2.337-1.275T7.3 15.25l2-.8q.3 1.05 1.013 1.8T12.2 17q.45 0 .825-.112t.725-.338L1.4 4.2l1.4-1.4l18.4 18.4z"/></svg>
           <div>Completely free</div>
