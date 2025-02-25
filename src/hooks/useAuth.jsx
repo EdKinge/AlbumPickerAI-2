@@ -23,15 +23,22 @@ export function useAuth() {
       setSignedIn(true);
       navigate('/dashboard')
     })
-    .catch(err => console.log(err.message))
+    .catch((err) => {
+      console.log(err.message);
+    });
   }
 
   const loginWithGithub = () => {
     signInWithGithub()
     .then(() => {
+      console.log('working');
       setSignedIn(true);
-      navigate('/dashboard')
-    });
+      navigate('/dashboard');
+      console.log('navigated');
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
   }
 
   const logoutOfAuth = () => {

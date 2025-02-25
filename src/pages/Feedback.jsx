@@ -1,16 +1,24 @@
 import { useFeedback } from "../hooks/useFeedback";
+import { useEffect } from "react";
+import BackButton from "../components/dashboard/BackButton"
 
 export default function Feedback() {
-  const { message, sent, setMessage, sendFeedback } = useFeedback();
+  const { message, isSubmitting, setMessage, sendFeedback } = useFeedback();
 
   return (
     <>
       <div className="flex flex-col items-center hover:cursor-default font-main text-slate-300">
+        <div className="ml-0 w-full">
+          <BackButton to="/dashboard" />
+        </div>
         <div className="text-6xl text-center text-customBlack mt-64 text-sky-600">
           Got feedback?
         </div>
         {
-          sent ?
+          isSubmitting ?
+          <div className="text-2xl mt-4">
+            Thanks for letting us know!
+          </div> :
           <>
           <div className="text-slate-300 text-2xl mt-16">
             Let us know here:
@@ -21,10 +29,7 @@ export default function Feedback() {
                 <button type="submit" className="flex mt-4 items-center transition ease-in-out hover:-translate-y-1 hover:scale-110 duration-300 text-sm text-slate-300 rounded-md bg-sky-600 p-2">Send feedback</button>
               </form>
             </div>
-          </> :
-          <div className="text-2xl mt-4">
-            Thanks for letting us know!
-          </div>
+          </>
         }
       </div>
     </>

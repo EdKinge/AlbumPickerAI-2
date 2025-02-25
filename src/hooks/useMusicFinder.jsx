@@ -23,20 +23,15 @@ export function useMusicFinder() {
     let newConversation = [...conversation,
       { role: 'user', content: newMessage}
     ];
-    console.log(newConversation);
 
     //The AI is asked for an album
     //If it exceeds 5 attempts, there is no response
     let foundAlbum = false;
 
     for (let i = 0; i < 5; i++) {
-      console.log(i);
       
       await updateConversation(newConversation)
       .then(res => {
-        console.log(res.data);
-
-
         if (!error) {
           newConversation.push(
             { role: 'assistant', content: res.data}

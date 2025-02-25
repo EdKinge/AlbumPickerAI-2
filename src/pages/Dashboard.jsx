@@ -1,5 +1,5 @@
 import GenreButton from "../components/dashboard/GenreButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMusicFinder } from "../hooks/useMusicFinder";
 import SignOutButton from "../components/dashboard/SignOutButton";
